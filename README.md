@@ -2,7 +2,7 @@
 
 A comprehensive, production-ready fraud detection system with role-based access control, modular architecture, automated testing, and containerized deployment.
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 Enterprise-Scale-Financial-Fraud-Detection-System/
@@ -22,48 +22,39 @@ Enterprise-Scale-Financial-Fraud-Detection-System/
 ├── Dockerfile                   # API container
 ├── Dockerfile.streamlit         # Dashboard container
 ├── docker-compose.yml           # Multi-service deployment
-├── .dockerignore               # Docker ignore file
-└── README.md                   # This file
+├── .dockerignore                # Docker ignore file
+└── README.md                    # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Installation
 
 ```bash
-# Clone the repository
 git clone <repository-url>
 cd Enterprise-Scale-Financial-Fraud-Detection-System
 
-# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
 ### 2. Run Complete Pipeline
 
 ```bash
-# Run the entire pipeline (preprocessing + training)
 python main.py all
 ```
 
 ### 3. Start Services
 
 ```bash
-# Start API server
 python main.py api
-
-# Start dashboard (in another terminal)
 python main.py dashboard
-
-# Run tests
 python main.py test
 ```
 
-## 📋 Available Commands
+## Available Commands
 
 | Command | Description |
 |---------|-------------|
@@ -75,14 +66,16 @@ python main.py test
 | `python main.py docker` | Start with Docker Compose |
 | `python main.py all` | Run complete pipeline |
 
-## 🔐 Authentication & Access Control
+## Authentication and Access Control
 
 ### API Keys
-- **Viewer**: `sk-viewer-456789123` (Read-only access)
-- **Fraud Analyst**: `sk-fraud-analyst-123456789` (Prediction access)
+
+- **Viewer**: `sk-viewer-456789123` (Read-only access)  
+- **Fraud Analyst**: `sk-fraud-analyst-123456789` (Prediction access)  
 - **Admin**: `sk-admin-987654321` (Full access)
 
 ### Usage Example
+
 ```bash
 curl -X POST "http://localhost:8000/predict" \
      -H "Authorization: Bearer sk-fraud-analyst-123456789" \
@@ -90,7 +83,7 @@ curl -X POST "http://localhost:8000/predict" \
      -d '{"Time": 1000.0, "V1": -1.3598071336738, ...}'
 ```
 
-## 🌐 API Endpoints
+## API Endpoints
 
 | Endpoint | Method | Description | Auth Required |
 |----------|--------|-------------|---------------|
@@ -104,177 +97,161 @@ curl -X POST "http://localhost:8000/predict" \
 | `/access-logs` | GET | Access logs | Admin only |
 | `/api-keys` | GET | API keys info | Admin only |
 
-## 📊 Dashboard Features
+## Dashboard Features
 
-- **Real-time Monitoring**: Live fraud detection metrics
-- **Model Performance**: AUC, precision, recall tracking
-- **Drift Detection**: Concept drift alerts
-- **Transaction Analysis**: Risk level distribution
-- **Merchant Risk**: Top risky merchants
-- **Performance Trends**: Historical model performance
+- Real-time monitoring of fraud detection metrics
+- Model performance tracking (AUC, precision, recall)
+- Concept drift detection and alerts
+- Risk level analysis of transactions
+- Merchant-specific fraud patterns
+- Historical performance trends
 
-## 🧪 Testing
+## Testing
 
 ```bash
-# Run all tests
 python main.py test
-
-# Run specific test categories
 pytest src/tests/ -v
-
-# Run with coverage
 pytest src/tests/ --cov=src --cov-report=html
 ```
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ### Single Container
+
 ```bash
-# Build and run API
 docker build -t fraud-detection .
 docker run -p 8000:8000 fraud-detection
 ```
 
 ### Full Stack (Recommended)
+
 ```bash
-# Start all services
 docker-compose up -d
-
-# View logs
 docker-compose logs -f
-
-# Stop services
 docker-compose down
 ```
 
 ### Services Included
-- **API Server**: FastAPI on port 8000
-- **Dashboard**: Streamlit on port 8501
-- **Database**: PostgreSQL on port 5432
-- **Cache**: Redis on port 6379
-- **Monitoring**: Prometheus, Grafana, ELK stack
 
-## 🔧 Development
+- API Server (FastAPI on port 8000)
+- Dashboard (Streamlit on port 8501)
+- Database (PostgreSQL on port 5432)
+- Cache (Redis on port 6379)
+- Monitoring Stack (Prometheus, Grafana, ELK)
+
+## Development
 
 ### Code Organization
-- **`src/preprocessing.py`**: Data loading, validation, feature engineering
-- **`src/training.py`**: Model training, evaluation, comparison
-- **`src/prediction.py`**: Inference, batch processing, drift detection
-- **`src/api.py`**: FastAPI endpoints with RBAC
-- **`src/dashboard.py`**: Streamlit monitoring dashboard
+
+- `preprocessing.py`: Data cleaning, validation, feature engineering  
+- `training.py`: Training, evaluation, model selection  
+- `prediction.py`: Inference, batch prediction, drift detection  
+- `api.py`: API endpoints with authentication and RBAC  
+- `dashboard.py`: Streamlit visualization interface
 
 ### Adding New Features
-1. Create feature branch: `git checkout -b feature/new-feature`
-2. Implement in appropriate module
-3. Add tests in `src/tests/`
-4. Run test suite: `python main.py test`
-5. Submit pull request
+
+1. `git checkout -b feature/new-feature`  
+2. Develop and test your feature  
+3. Add unit tests to `src/tests/`  
+4. Run the full test suite  
+5. Submit a pull request
 
 ### Code Quality
+
 ```bash
-# Format code
 black src/
-
-# Lint code
 flake8 src/
-
-# Type checking
 mypy src/
 ```
 
-## 📈 Performance
+## Performance
 
 ### Benchmarks
-- **Single Prediction**: < 100ms
-- **Batch Prediction (1000 tx)**: < 5s
-- **API Throughput**: 1000+ requests/second
-- **Memory Usage**: < 2GB for full stack
+
+- Single prediction: < 100ms  
+- Batch prediction (1000 transactions): < 5s  
+- API throughput: 1000+ requests/second  
+- Memory footprint: < 2GB for full stack
 
 ### Optimization Tips
-- Use batch predictions for large datasets
-- Enable Redis caching for repeated queries
-- Monitor memory usage with large models
-- Scale horizontally with Docker Compose
 
-## 🔒 Security Features
+- Use batch endpoints for large input sets  
+- Cache frequent predictions with Redis  
+- Monitor resource usage via Grafana  
+- Scale horizontally via Docker Compose
 
-- **Role-Based Access Control**: Three user roles with granular permissions
-- **API Key Authentication**: Bearer token-based authentication
-- **Input Validation**: Comprehensive data validation and sanitization
-- **Access Logging**: Complete audit trail of all API interactions
-- **HTTPS Support**: SSL/TLS encryption (in production)
-- **Rate Limiting**: Protection against abuse
+## Security Features
 
-## 📊 Monitoring & Observability
+- Role-based access control (RBAC)  
+- API key-based authentication  
+- Input validation and sanitization  
+- Access logging and audit trail  
+- HTTPS support (via reverse proxy in production)  
+- Rate limiting to prevent abuse
 
-### Built-in Monitoring
-- **Health Checks**: Automatic health monitoring
-- **Access Logs**: Complete audit trail
-- **Performance Metrics**: Response times and throughput
-- **Error Tracking**: Comprehensive error logging
+## Monitoring and Observability
 
-### External Monitoring Stack
-- **Prometheus**: Metrics collection
-- **Grafana**: Visualization and alerting
-- **ELK Stack**: Log aggregation and analysis
-- **Redis**: Caching and session management
+### Built-in
 
-## 🆘 Troubleshooting
+- Health check endpoints  
+- Access and error logs  
+- Response time and throughput metrics
 
-### Common Issues
+### External Tools
 
-#### API Not Starting
+- Prometheus for metrics  
+- Grafana for dashboards and alerts  
+- ELK Stack for logs  
+- Redis for caching and session tracking
+
+## Troubleshooting
+
+### API Not Starting
+
 ```bash
-# Check if port is available
 netstat -tulpn | grep 8000
-
-# Check logs
 docker-compose logs fraud-api
 ```
 
-#### Model Loading Errors
-```bash
-# Verify model files exist
-ls -la src/artifacts/*.joblib
+### Model Loading Errors
 
-# Check model compatibility
+```bash
+ls -la src/artifacts/*.joblib
 python -c "import joblib; print(joblib.load('src/artifacts/xgb_fraud_model.joblib'))"
 ```
 
-#### Authentication Issues
-```bash
-# Verify API key format
-curl -H "Authorization: Bearer YOUR_API_KEY" http://localhost:8000/info
+### Authentication Issues
 
-# Check user permissions
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" http://localhost:8000/info
 curl -H "Authorization: Bearer sk-admin-987654321" http://localhost:8000/api-keys
 ```
 
-### Getting Help
-1. Check the logs: `docker-compose logs`
-2. Run tests: `python main.py test`
-3. Check health: `curl http://localhost:8000/health`
-4. Review documentation: http://localhost:8000/docs
+### General Steps
 
-## 📄 License
+1. Review logs: `docker-compose logs`  
+2. Run tests: `python main.py test`  
+3. Check health: `curl http://localhost:8000/health`  
+4. Read API docs: `http://localhost:8000/docs`
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## License
 
-## 🤝 Contributing
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Run the test suite
-6. Submit a pull request
+## Contributing
 
-## 📞 Support
+1. Fork this repository  
+2. Create a feature branch  
+3. Implement and test your changes  
+4. Submit a pull request
 
-- **Documentation**: http://localhost:8000/docs
-- **Issues**: GitHub Issues
-- **Email**: support@fraud-detection.com
+## Support
+
+- Documentation: http://localhost:8000/docs  
+- Issues: GitHub Issue Tracker  
+- Email: support@fraud-detection.com
 
 ---
 
-**Note**: This is a production-ready system with enterprise-grade security, monitoring, and scalability features. Always test thoroughly in a staging environment before deploying to production.
+**Note**: This is a production-ready system with enterprise-grade security, monitoring, and scalability. Always verify in a staging environment before going live.
